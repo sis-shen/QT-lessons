@@ -19,12 +19,12 @@ public slots:
 
     void keyBoardInput(char ch);
 
-    QString getNumber();
+    QString getNumberStr();
 private:
     QLabel* label;
 
 public://这些需要给atm绑定槽函数
-    QPushButton* funtionBtn;
+    QPushButton* functionBtn;
     QPushButton* clearBtn;
     QPushButton* cancelBtn;
     QPushButton* confirmBtn;

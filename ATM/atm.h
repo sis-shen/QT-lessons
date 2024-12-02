@@ -27,8 +27,11 @@ private:
     Screen* screen;
     BankDatabase* bankDatabase;
     Keypad* keypad;
+
+    AtmState state;
+    int subState;
 private:
-    void authenticateUser(int);
+    void authenticateUser();
     void init();
 };
 

@@ -62,22 +62,22 @@ void Keypad::initBtns()
     layout->addWidget(button,4,2);
     connect(button,&QPushButton::clicked,this,&Keypad::keypadCallback);
 
-    funtionBtn = new QPushButton;
-    button->setText("功能");
-    layout->addWidget(button,1,3);
+    functionBtn = new QPushButton;
+    functionBtn->setText("功能");
+    layout->addWidget(functionBtn,1,3);
 
     clearBtn = new QPushButton;
-    button->setText("清除");
-    layout->addWidget(button,2,3);
-    connect(button,&QPushButton::clicked,this,&Keypad::clearTxt);
+    clearBtn->setText("清除");
+    layout->addWidget(clearBtn,2,3);
+    connect(clearBtn,&QPushButton::clicked,this,&Keypad::clearTxt);
 
     cancelBtn = new QPushButton;
-    button->setText("取消");
-    layout->addWidget(button,3,3);
+    cancelBtn->setText("取消");
+    layout->addWidget(cancelBtn,3,3);
 
     confirmBtn = new QPushButton;
-    button->setText("确认");
-    layout->addWidget(button,4,3);
+    confirmBtn->setText("确认");
+    layout->addWidget(confirmBtn,4,3);
 
     this->setLayout(layout);
 }
@@ -134,7 +134,7 @@ void Keypad::keyBoardInput(char ch)
     label->setText(txt);
 }
 
-QString Keypad::getNumber()
+QString Keypad::getNumberStr()
 {
     return label->text();
 }

@@ -3,9 +3,14 @@
 BankDatabase::BankDatabase()
     :account(nullptr)
 {
-    sql::mysql::MySQL_Driver* driver = sql::mysql::get_mysql_driver_instance();
-    conn = driver->connect("localhost","root","Shendongfa!1");
-    stm = conn->createStatement();
+    //输出已安装的驱动
+    qDebug() << QSqlDatabase::drivers();
+    // 设置数据库文件路径
+    db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setDatabaseName("Qt");
+    db.setHostName("47.99.48.121");
+    db.setPassword("12345678");
+    db.setUserName("QTUser");
 }
 
 BankDatabase::~BankDatabase()
@@ -15,7 +20,7 @@ BankDatabase::~BankDatabase()
 
 BankDatabase::Status BankDatabase::authenticateAccount(const int num, const int PIN)
 {
-    if(conn->isClosed())return MissDB;
+    // if(db.isOpen() == false)return MissDB;
     bool ret = createAccount(num);
     if(ret == false) return UnkownAcc;
 
@@ -34,14 +39,21 @@ bool BankDatabase::createAccount(int num)
 
     account = new Account;
 
-    std::string sql = "select * from account where id = " + QString::number(num).toStdString();
-    sql::ResultSet* res = stm->executeQuery(sql);
-    while(res->next())
+    QString sql = "select * from accounts where account=";
+    sql += QString::number(num);
+    QSqlQuery query;
+    if (query.exec(sql)) {  // 替换为你的表名
+        while (query.next())
+        {
+            account->_accountNum = query.value(0).toInt();
+            account->_PIN = query.value(1).toInt();
+            account->_amount = query.value(2).toInt();
+            return true;
+        }
+    }
+    else
     {
-        account->_accountNum = res->getInt(1);
-        account->_PIN = res->getInt(2);
-        account->_amount = res->getInt(3);
-        return true;
+        qDebug() << "Error: " << query.lastError().text();
     }
 
     //用户不存在

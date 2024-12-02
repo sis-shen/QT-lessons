@@ -15,4 +15,12 @@
 
 #include <QVector>
 
+enum AtmState
+{
+    Authentication,
+    Selection,
+    Withdrawal,
+    Deposit
+};
+
 #endif // COMMON_H

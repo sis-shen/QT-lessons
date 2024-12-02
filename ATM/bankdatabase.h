@@ -1,8 +1,11 @@
 #ifndef BANKDATABASE_H
 #define BANKDATABASE_H
-#include <mysql/jdbc.h>
 #include "common.h"
 #include <string>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlError>
+
 class Account
 {
 public:
@@ -31,9 +34,7 @@ private:
     bool createAccount(int num);
 private:
     Account* account;
-    sql::Connection* conn;
-    sql::Statement* stm;
-
+    QSqlDatabase db;
 };
 
 #endif // BANKDATABASE_H
