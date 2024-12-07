@@ -4,9 +4,9 @@
 #include "bankdatabase.h"
 #include "cashdispenser.h"
 #include "screen.h"
-#include "deposit.h"
 #include "keypad.h"
 #include "common.h"
+#include "transaction.h"
 
 class ATM:public QWidget
 {
@@ -27,12 +27,15 @@ private:
     Screen* screen;
     BankDatabase* bankDatabase;
     Keypad* keypad;
+    Transaction* trans;
 
     AtmState state;
     int subState;
 private:
     void authenticateUser();
     void init();
+    void syncState();
+    void makeWithdrawal();
 };
 
 #endif // ATM_H

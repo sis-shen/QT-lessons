@@ -6,7 +6,7 @@
 #include "cashdispenser.h"
 #include "bankdatabase.h"
 
-class Transaction
+class Transaction:public QObject
 {
 public:
     Transaction(int aNumber):accountNumber(aNumber){}
@@ -21,10 +21,14 @@ protected:
 
 class Withdrawal:public Transaction
 {
+    Q_OBJECT
 public:
     Withdrawal(int aNum):Transaction(aNum){};
 
     void execute();
+
+public slots:
+    void WithdrawalSlot(int num);
 private:
     int amount;
 

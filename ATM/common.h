@@ -12,8 +12,10 @@
 #include <QKeyEvent>
 #include <QLayout>
 #include <QDebug>
-
+#include <QtAssert>
 #include <QVector>
+
+#define DEBUG 1
 
 enum AtmState
 {

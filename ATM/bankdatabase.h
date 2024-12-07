@@ -12,6 +12,14 @@ public:
     int _accountNum;
     int _PIN;
     int _amount;
+
+    void qdebug()
+    {
+        qDebug()<<"Account DEBUG";
+        qDebug()<<_accountNum;
+        qDebug()<<_PIN;
+        qDebug()<<_amount;
+    }
 };
 
 class BankDatabase
@@ -29,7 +37,9 @@ public:
 
     ~BankDatabase();
 
-    Status authenticateAccount(const int num,const int PIN);
+    Status authenticateAccount(const int num,const int PIN,bool* authenticated);
+    int getBalance();
+    int getAccountNum();
 private:
     bool createAccount(int num);
 private:
