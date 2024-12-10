@@ -6,6 +6,7 @@ ATM::ATM()
     ,screen(new Screen)
     ,bankDatabase(new BankDatabase)
     ,keypad(new Keypad)
+    ,cash_dispenser(new CashDispenser)
     ,trans(nullptr)
     ,state(AtmState::Authentication)
     ,subState(0)
@@ -14,6 +15,10 @@ ATM::ATM()
 
     connect(keypad->confirmBtn,&QPushButton::clicked,this,&ATM::confirmRouter);
     connect(keypad->cancelBtn,&QPushButton::clicked,this,&ATM::cancelRouter);
+
+    connect(screen,&Screen::withdrawSignal,this,&ATM::withdrawalSlot);
+    connect(screen,&Screen::depositSignal,this,&ATM::depositSlot);
+
 
 }
 
@@ -32,15 +37,22 @@ void ATM::confirmRouter()
         qDebug()<<"authentication";
         authenticateUser();
     }
-    else if(state == AtmState::Withdrawal)
-    {
-        makeWithdrawal;
-    }
 }
 
 void ATM::cancelRouter()
 {
     syncState();
+}
+
+void ATM::withdrawalSlot()
+{
+    makeWithdrawal();
+    trans->execute();
+}
+
+void ATM::depositSlot()
+{
+    ;
 }
 
 Screen *ATM::getScreen()
@@ -66,7 +78,19 @@ void ATM::syncState()
 
 void ATM::makeWithdrawal()
 {
+    if(trans)
+    {
+        delete trans;
+        trans = nullptr;
+    }
+    Trans::Withdrawal* wi = new Trans::Withdrawal(currentAccountNumber);
+    trans = wi;
+    wi->keypad = keypad;
+    wi->amount = screen->getSelectedNum();
 
+    wi->screen = screen;
+    wi->cash_dispenser = cash_dispenser;
+    wi->bankDB = bankDatabase;
 }
 
 void ATM::authenticateUser()

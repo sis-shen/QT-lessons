@@ -24,9 +24,13 @@ public:
     void switchState(AtmState state,int subState);
 
     void setBank(BankDatabase* pbank);
+
+    int getSelectedNum();
 public:
 signals:
-    void selectNumSignal(int selectNum);
+    void selectNumSignal();
+    void withdrawSignal();
+    void depositSignal();
 
 public slots:
     void selectNumSlot();
@@ -34,6 +38,8 @@ public slots:
     void DepositBtnSlot();
 public:
     AtmState innerState;
+    QPushButton* withdrawalBtn = nullptr;
+    QPushButton* depositBtn = nullptr;
 private:
     //既是布局，也是状态表示
     QWidget* w_authentication;

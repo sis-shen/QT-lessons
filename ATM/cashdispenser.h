@@ -6,7 +6,15 @@
 class CashDispenser:public QWidget
 {
 public:
-    CashDispenser();
+    CashDispenser(int availableCash = 100000);
+
+    bool isAvailable(int num);
+    bool dispenseCash(int num);
+
+    int getAvailableCash();
+
+private:
+    int _availableCash;
 };
 
 #endif // CASHDISPENSER_H

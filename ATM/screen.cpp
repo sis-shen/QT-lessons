@@ -94,14 +94,15 @@ void Screen::switchSelection(int subState)
 
     w_selection = new QWidget;
     //选择事物
-    QPushButton* withdrawalBtn = new QPushButton;
-    QPushButton* depositBtn = new QPushButton;
+    withdrawalBtn = new QPushButton;
+    depositBtn = new QPushButton;
     QLabel* title = new QLabel;
     title->setText("请选择事务");
     title->setAlignment(Qt::AlignCenter);
     withdrawalBtn->setText("取钱");
     depositBtn->setText("存钱");
 
+    //切换界面
     connect(withdrawalBtn,&QPushButton::clicked,this,&Screen::WithdrawalBtnSlot);
     connect(depositBtn,&QPushButton::clicked,this,&Screen::DepositBtnSlot);
 
@@ -209,6 +210,11 @@ void Screen::setBank(BankDatabase *pbank)
     bank = pbank;
 }
 
+int Screen::getSelectedNum()
+{
+    return selectedNum;
+}
+
 
 
 void Screen::selectNumSlot()
@@ -220,7 +226,7 @@ void Screen::selectNumSlot()
         if(btn)
         {
             selectedNum = btn->text().toInt();
-            emit selectNumSignal(selectedNum);
+            emit selectNumSignal();
         }
     }
 }
@@ -229,10 +235,12 @@ void Screen::WithdrawalBtnSlot()
 {
     innerState = AtmState::Withdrawal;
     switchWithdrawal();
+    emit withdrawSignal();
 }
 
 void Screen::DepositBtnSlot()
 {
     innerState = AtmState::Deposit;
     switchDeposit();
+    emit withdrawSignal();
 }

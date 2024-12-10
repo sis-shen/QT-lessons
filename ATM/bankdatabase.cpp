@@ -39,7 +39,30 @@ int BankDatabase::getBalance()
 int BankDatabase::getAccountNum()
 {
     Q_ASSERT(account);
-    return account->_accountNum;
+    return account->_amount;
+}
+
+bool BankDatabase::withdrawalCash(int num)
+{
+    if(!db.transaction())
+    {
+        qDebug()<<"事务开启失败";
+        return false;
+    }
+    QSqlQuery query;
+    query.prepare("update accounts set amount = :amount where account = :account");
+    query.bindValue(":account",account->_accountNum);
+    query.bindValue(":amount",account->_amount);
+
+    if(!query.exec())
+    {
+        qDebug()<< "取钱事务失败";
+        db.rollback();
+        return false;
+    }
+
+    qDebug()<<"取钱事务执行成功";
+    return true;
 }
 
 bool BankDatabase::createAccount(int num)

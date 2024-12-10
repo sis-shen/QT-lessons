@@ -21,13 +21,17 @@ public:
 public slots:
     void confirmRouter();
     void cancelRouter();
+
+    void withdrawalSlot();
+    void depositSlot();
 private:
     bool authenticated;
     int currentAccountNumber;
     Screen* screen;
     BankDatabase* bankDatabase;
     Keypad* keypad;
-    Transaction* trans;
+    Trans::Transaction* trans;
+    CashDispenser* cash_dispenser;
 
     AtmState state;
     int subState;

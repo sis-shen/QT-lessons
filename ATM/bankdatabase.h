@@ -40,6 +40,8 @@ public:
     Status authenticateAccount(const int num,const int PIN,bool* authenticated);
     int getBalance();
     int getAccountNum();
+
+    bool withdrawalCash(int num);
 private:
     bool createAccount(int num);
 private:
