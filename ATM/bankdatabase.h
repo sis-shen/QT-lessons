@@ -42,6 +42,7 @@ public:
     int getAccountNum();
 
     bool withdrawalCash(int num);
+    bool depositCash(int num);
 private:
     bool createAccount(int num);
 private:

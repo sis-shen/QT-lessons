@@ -173,6 +173,13 @@ void Screen::switchDeposit(int sunState)
         cnt++;
     }
 
+    QLabel* amount = new QLabel;
+    QString amountStr = "当前可用余额: ";
+    amountStr += QString::number(bank->getBalance());
+    amount->setText(amountStr);
+
+    layout->addWidget(amount,100,0);
+
     w_deposit->setLayout(layout);
     this->layout()->addWidget(w_deposit);
 }
@@ -242,5 +249,5 @@ void Screen::DepositBtnSlot()
 {
     innerState = AtmState::Deposit;
     switchDeposit();
-    emit withdrawSignal();
+    emit depositSignal();
 }

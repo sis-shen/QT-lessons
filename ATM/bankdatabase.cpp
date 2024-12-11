@@ -44,12 +44,18 @@ int BankDatabase::getAccountNum()
 
 bool BankDatabase::withdrawalCash(int num)
 {
+    qDebug()<<"bank db withdrawal";
+#ifdef DEBUG
+    account->_amount-=num;
+    return true;
+#endif
     if(!db.transaction())
     {
         qDebug()<<"事务开启失败";
         return false;
     }
     QSqlQuery query;
+    account->_amount-=num;
     query.prepare("update accounts set amount = :amount where account = :account");
     query.bindValue(":account",account->_accountNum);
     query.bindValue(":amount",account->_amount);
@@ -58,9 +64,38 @@ bool BankDatabase::withdrawalCash(int num)
     {
         qDebug()<< "取钱事务失败";
         db.rollback();
+        account->_amount+=num;
         return false;
     }
+    qDebug()<<"取钱事务执行成功";
+    return true;
+}
 
+bool BankDatabase::depositCash(int num)
+{
+    qDebug()<<"bank db deposit";
+#ifdef DEBUG
+    account->_amount+=num;
+    return true;
+#endif
+    if(!db.transaction())
+    {
+        qDebug()<<"事务开启失败";
+        return false;
+    }
+    QSqlQuery query;
+    account->_amount+=num;  //增加账户余额
+    query.prepare("update accounts set amount = :amount where account = :account");
+    query.bindValue(":account",account->_accountNum);
+    query.bindValue(":amount",account->_amount);
+
+    if(!query.exec())
+    {
+        qDebug()<< "取钱事务失败";
+        db.rollback();
+        account->_amount-=num;
+        return false;
+    }
     qDebug()<<"取钱事务执行成功";
     return true;
 }

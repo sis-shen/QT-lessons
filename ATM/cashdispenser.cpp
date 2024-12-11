@@ -23,6 +23,7 @@ bool CashDispenser::dispenseCash(int num)
 
     _availableCash-=num;
     qDebug()<<"成功分发现金(TODO)";
+    return true;
 }
 
 int CashDispenser::getAvailableCash()

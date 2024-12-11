@@ -41,8 +41,18 @@ public:
 
 class Deposit:public Transaction
 {
+    Q_OBJECT
 public:
     Deposit(int aNum):Transaction(aNum){}
+    virtual void execute()override;
+
+public slots:
+    void depositSlot();
+public:
+    int amount;
+    Keypad* keypad;
+    Screen* screen;
+    BankDatabase* bankDB;
 };
 
 }

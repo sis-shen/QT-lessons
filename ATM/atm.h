@@ -40,6 +40,7 @@ private:
     void init();
     void syncState();
     void makeWithdrawal();
+    void makeDeposit();
 };
 
 #endif // ATM_H
